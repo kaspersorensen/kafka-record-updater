@@ -1,10 +1,12 @@
-package kafka.tools.overwriter;
+package kafka.tools.recordupdater;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
 import org.junit.Test;
+
+import kafka.tools.recordupdater.LogFileUpdater;
 
 public class LogFileUpdaterTest {
 

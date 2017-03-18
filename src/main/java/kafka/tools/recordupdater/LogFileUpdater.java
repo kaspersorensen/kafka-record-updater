@@ -1,4 +1,4 @@
-package kafka.tools.overwriter;
+package kafka.tools.recordupdater;
 
 import java.io.File;
 import java.io.FileNotFoundException;
