@@ -15,7 +15,7 @@ public abstract class AbstractDestroyRecordUpdater implements RecordUpdater {
         this.blankChar = (byte) blankChar;
     }
 
-    public boolean destroy(byte[] v) {
+    protected boolean destroy(byte[] v) {
         if (v == null || v.length == 0) {
             return false;
         }

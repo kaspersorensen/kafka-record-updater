@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import kafka.tools.recordupdater.LogFileUpdater;
+import kafka.tools.recordupdater.SegmentFileUpdater;
 import kafka.tools.recordupdater.api.RecordUpdater;
 
 public class SegmentFileUpdaterTest {
@@ -14,7 +14,7 @@ public class SegmentFileUpdaterTest {
     @Test
     public void testTraverseFile() throws Exception {
         File file = new File("src/test/resources/example-log-health-check.log");
-        LogFileUpdater updater = new LogFileUpdater(file);
+        SegmentFileUpdater updater = new SegmentFileUpdater(file);
         updater.run(new RecordUpdater() {
             @Override
             public boolean update(long offset, byte[] key, byte[] value) {
@@ -26,14 +26,14 @@ public class SegmentFileUpdaterTest {
 
     @Test
     public void testGetLength() {
-        assertEquals(16, LogFileUpdater.getLong(new byte[] { 16 }));
-        assertEquals(16, LogFileUpdater.getLong(new byte[] { 0, 16 }));
-        assertEquals(16, LogFileUpdater.getLong(new byte[] { 0, 0, 0, 0, 16 }));
-        assertEquals(149, LogFileUpdater.getLong(new byte[] { 0, -107 }));
-        assertEquals(129, LogFileUpdater.getLong(new byte[] { -127 }));
-        assertEquals(255, LogFileUpdater.getLong(new byte[] { -1 }));
-        assertEquals(256, LogFileUpdater.getLong(new byte[] { 1, 0 }));
-        assertEquals(272, LogFileUpdater.getLong(new byte[] { 1, 16 }));
-        assertEquals(528, LogFileUpdater.getLong(new byte[] { 2, 16 }));
+        assertEquals(16, SegmentFileUpdater.getLong(new byte[] { 16 }));
+        assertEquals(16, SegmentFileUpdater.getLong(new byte[] { 0, 16 }));
+        assertEquals(16, SegmentFileUpdater.getLong(new byte[] { 0, 0, 0, 0, 16 }));
+        assertEquals(149, SegmentFileUpdater.getLong(new byte[] { 0, -107 }));
+        assertEquals(129, SegmentFileUpdater.getLong(new byte[] { -127 }));
+        assertEquals(255, SegmentFileUpdater.getLong(new byte[] { -1 }));
+        assertEquals(256, SegmentFileUpdater.getLong(new byte[] { 1, 0 }));
+        assertEquals(272, SegmentFileUpdater.getLong(new byte[] { 1, 16 }));
+        assertEquals(528, SegmentFileUpdater.getLong(new byte[] { 2, 16 }));
     }
 }

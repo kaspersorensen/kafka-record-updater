@@ -19,6 +19,10 @@ public class DirectoryUpdater {
         public boolean visitPartition(String topicName, int partitionNumber);
 
         public boolean visitSegment(File segmentFile);
+
+        public boolean visitRecord(long offset);
+
+        public RecordUpdater getRecordUpdater();
     }
 
     public static class Summary {
@@ -70,21 +74,32 @@ public class DirectoryUpdater {
         for (File segmentFile : segmentFiles) {
             s.visitedSegments++;
 
-            final LogFileUpdater logFileUpdater = new LogFileUpdater(segmentFile);
-            final boolean segmentUpdated = logFileUpdater.run(new RecordUpdater() {
-                @Override
-                public boolean update(long offset, byte[] key, byte[] value) {
-                    s.visitedRecords++;
-
-                    return false;
-                }
-            });
+            final SegmentFileUpdater logFileUpdater = new SegmentFileUpdater(segmentFile);
+            final boolean segmentUpdated = logFileUpdater.run(createProxyRecordUpdater(callback, s));
             if (segmentUpdated) {
                 s.updatedSegments++;
                 partitionUpdated = true;
             }
         }
         return partitionUpdated;
+    }
+
+    private RecordUpdater createProxyRecordUpdater(Callback callback, Summary s) {
+        return new RecordUpdater() {
+            @Override
+            public boolean update(long offset, byte[] key, byte[] value) {
+                if (!callback.visitRecord(offset)) {
+                    return false;
+                }
+                s.visitedRecords++;
+
+                final boolean updated = callback.getRecordUpdater().update(offset, key, value);
+                if (updated) {
+                    s.updatedRecords++;
+                }
+                return updated;
+            }
+        };
     }
 
     private FilenameFilter createSegmentFileFilter() {

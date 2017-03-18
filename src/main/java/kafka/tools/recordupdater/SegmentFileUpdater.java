@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.math.IntMath;
 import com.google.common.primitives.UnsignedBytes;
 
@@ -33,7 +36,9 @@ import kafka.tools.recordupdater.api.RecordUpdater;
  * 
  * @author Kasper Sørensen
  */
-public class LogFileUpdater {
+public class SegmentFileUpdater {
+
+    private static final Logger logger = LoggerFactory.getLogger(SegmentFileUpdater.class);
 
     private final File file;
 
@@ -47,12 +52,14 @@ public class LogFileUpdater {
     private final byte[] messageValueLength = new byte[LENGTH_BYTES];
     private byte messageMagicValue;
 
-    public LogFileUpdater(File file) {
+    public SegmentFileUpdater(File file) {
         this.file = file;
     }
 
     public boolean run(RecordUpdater recordUpdater) throws FileNotFoundException, IOException {
-        boolean segmentUpdated = false;
+        long recordsVisited = 0;
+        long recordsUpdated = 0;
+
         try (final RandomAccessFile raf = new RandomAccessFile(file, "rwd")) {
             while (true) {
                 // populate bytes
@@ -60,6 +67,7 @@ public class LogFileUpdater {
                     // eof
                     break;
                 }
+                recordsVisited++;
 
                 final long offset = getLong(messageOffset);
 
@@ -93,11 +101,15 @@ public class LogFileUpdater {
                     raf.write(messageKey);
                     raf.seek(messageValueOffset);
                     raf.write(messageValue);
-                    segmentUpdated = true;
+
+                    logger.debug("Updated record with offset={} in segment file: {}", offset, file);
+
+                    recordsUpdated++;
                 }
             }
         }
-        return segmentUpdated;
+        logger.info("Updated {} / {} records in segment file: {}", recordsUpdated, recordsVisited, file);
+        return recordsUpdated > 0;
     }
 
     protected static long getLong(byte[] b) {
