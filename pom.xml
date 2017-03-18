@@ -4,6 +4,13 @@
 	<groupId>kafka.tools</groupId>
 	<artifactId>kafka-record-updater</artifactId>
 	<version>0.1-SNAPSHOT</version>
+	<scm>
+		<url>https://github.com/kaspersorensen/kafka-record-updater</url>
+		<connection>scm:git:https://github.com/kaspersorensen/kafka-record-updater.git</connection>
+		<developerConnection>scm:git:https://github.com/kaspersorensen/kafka-record-updater.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
 	<build>
 		<plugins>
 			<plugin>
