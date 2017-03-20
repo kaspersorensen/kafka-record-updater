@@ -34,7 +34,7 @@ import kafka.tools.recordupdater.api.RecordUpdater;
  * value          : V bytes
  * </pre>
  * 
- * @author Kasper Sørensen
+ * @author Kasper SÃ¸rensen
  */
 public class SegmentFileUpdater {
 
@@ -84,9 +84,14 @@ public class SegmentFileUpdater {
                 raf.read(messageKeyLength);
 
                 final int keyLength = getInteger(messageKeyLength);
-                final byte[] messageKey = new byte[keyLength];
-                raf.readFully(messageKey);
-
+                final byte[] messageKey;
+                if (keyLength == -1) {
+                    messageKey = new byte[0];
+                } else {
+                    messageKey = new byte[keyLength];
+                    raf.readFully(messageKey);
+                }
+                
                 raf.readFully(messageValueLength);
                 final int valueLength = getInteger(messageValueLength);
                 final byte[] messageValue = new byte[valueLength];
@@ -96,6 +101,8 @@ public class SegmentFileUpdater {
                     final long filePointer = raf.getFilePointer();
                     final long messageValueOffset = filePointer - valueLength;
                     final long messageKeyOffset = messageValueOffset - LENGTH_BYTES - keyLength;
+                    
+                    // TODO: Update CRC - "The CRC is the CRC32 of the remainder of the message bytes. This is used to check the integrity of the message on the broker and consumer."
 
                     raf.seek(messageKeyOffset);
                     raf.write(messageKey);
