@@ -26,7 +26,7 @@ import kafka.tools.recordupdater.api.RecordUpdater;
  * On-disk format of a message
  *
  * offset         : 8 bytes 
- * message length : 4 bytes (value: 4 + 1 + 1 + 8(if magic value > 0) + 4 + K + 4 + V)
+ * message length : 4 bytes (value: 4 + 1 + 1 + 8(if magic value &gt; 0) + 4 + K + 4 + V)
  * crc            : 4 bytes
  * magic value    : 1 byte
  * attributes     : 1 byte
