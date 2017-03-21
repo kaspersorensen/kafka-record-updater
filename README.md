@@ -21,9 +21,10 @@ It traverses Kafka log files, optionally filtered by:
 
 Currently available and built-in updaters:
 
- * `destroy`
- * `destroy-key`
- * `destroy-value`
+ * `destroy`: Destroys both key and value by replacing all characters with `*`.
+ * `destroy-key`: Like `destroy`, but only for the record key.
+ * `destroy-value`: Like `destroy`, but only for the record value.
+ * `empty-json`: Replaces the record value with an empty JSON document (`{}`).
 
 Plus, you can add your own by implementing the `RecordUpdater` interface.
 
@@ -36,7 +37,7 @@ The tool must be applied to all nodes in your Kafka cluster since it only handle
 ## Usage
 
 ```
-$ java -jar kafka-record-updater-0.1-SNAPSHOT.jar
+$ java -jar kafka-record-updater-0.2.jar
 Option "--data-dir" is required
  --data-dir FILE     : The Apache Kafka log/data directory
  --offset-max N      : A max (inclusive) offset number for records to update
