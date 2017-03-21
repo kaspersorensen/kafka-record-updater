@@ -79,10 +79,6 @@ public class SegmentFileUpdater {
                 } catch (EOFException e) {
                     logger.warn("Unexpected EOF at record no. {} in {}", recordsVisited + 1, file);
                     break;
-                } catch (IOException e) {
-                    logger.error("Failed to process record no. {} in {}: {} - {}", recordsVisited + 1, file, e
-                            .getClass().getName(), e.getMessage());
-                    throw e;
                 }
             }
         }
@@ -120,7 +116,7 @@ public class SegmentFileUpdater {
             raf.read(messageTimestamp);
         }
         raf.read(messageKeyLength);
-        
+
         final long messageKeyOffset = raf.getFilePointer();
 
         final int keyLength = getInteger(messageKeyLength);
@@ -134,7 +130,7 @@ public class SegmentFileUpdater {
 
         raf.readFully(messageValueLength);
         final long messageValueOffset = raf.getFilePointer();
-        
+
         final int valueLength = getInteger(messageValueLength);
         final byte[] messageValue = new byte[valueLength];
         raf.readFully(messageValue);
