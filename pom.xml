@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>kafka.tools</groupId>
 	<artifactId>kafka-record-updater</artifactId>
-	<version>0.2</version>
+	<version>0.3-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -10,7 +10,7 @@
 		<url>https://github.com/kaspersorensen/kafka-record-updater</url>
 		<connection>scm:git:https://github.com/kaspersorensen/kafka-record-updater.git</connection>
 		<developerConnection>scm:git:https://github.com/kaspersorensen/kafka-record-updater.git</developerConnection>
-		<tag>kafka-record-updater-0.2</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<build>
 		<plugins>
