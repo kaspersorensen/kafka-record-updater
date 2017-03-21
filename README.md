@@ -1,8 +1,10 @@
 # kafka-record-updater
 
+[![Build Status: Linux](https://travis-ci.org/kaspersorensen/kafka-record-updater.svg?branch=master)](https://travis-ci.org/kaspersorensen/kafka-record-updater)
+
 A tool for updating Apache Kafka records on disk.
 
-This is particularly useful in situations where one or more records accidentally contains errornuous or sensitive information and you don't purge Kafka logs to preserve full history.
+This is particularly useful in situations where one or more records accidentally contains errornious or sensitive information and you must get rid of without purging all the Kafka logs.
 
 ## Approach
 
