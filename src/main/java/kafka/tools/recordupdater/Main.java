@@ -16,6 +16,7 @@ import kafka.tools.recordupdater.api.RecordUpdater;
 import kafka.tools.recordupdater.updaters.DestroyKeyAndValueRecordUpdater;
 import kafka.tools.recordupdater.updaters.DestroyKeyRecordUpdater;
 import kafka.tools.recordupdater.updaters.DestroyValueRecordUpdater;
+import kafka.tools.recordupdater.updaters.EmptyJsonValueUpdater;
 
 /**
  * The command line entrypoint
@@ -106,6 +107,8 @@ public class Main {
 
     private RecordUpdater createRecordUpdater() {
         switch (updaterClass.trim().replace("-", "").toLowerCase()) {
+        case "emptyjson":
+            return new EmptyJsonValueUpdater();
         case "destroykey":
         case "destroykeys":
             return new DestroyKeyRecordUpdater();
