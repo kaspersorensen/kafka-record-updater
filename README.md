@@ -30,11 +30,13 @@ Currently available and built-in updaters:
 
 Plus, you can add your own by implementing the `RecordUpdater` interface.
 
-## Warnings
+## Disclaimer and warnings
 
 The tool is __work in progress__ and has not been field-tested yet on a wide variety of Kafka installations.
 
 The tool must be applied to all nodes in your Kafka cluster since it only handles the replicas available in the local data directory.
+
+This tool is a quick-fix and a prototype that's not necesarily future-proof since the on-disk format of Kafka has changed changed between versions and probably will also change in future versions. I am working on a [KIP](KIP.md) in order to make the tool (or it's functionality in some form) introduced as a part of the core Kafka tools available and maintained in a more sustainable fashion.
 
 ## Usage
 
